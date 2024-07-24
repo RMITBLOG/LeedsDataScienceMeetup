@@ -1,3 +1,4 @@
+### Embeddings example which shows the output from the Vector DB after upsert. 
 import numpy as np
 from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance, PointStruct

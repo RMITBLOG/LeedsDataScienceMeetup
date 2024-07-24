@@ -1,3 +1,4 @@
+### Basic example without db features on using completions to process response using the embeddings. 
 import numpy as np
 from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance, PointStruct
