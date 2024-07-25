@@ -1,4 +1,27 @@
-### Basic example without db features on using completions to process response using the embeddings. 
+"""
+Author: Ryan Mangan
+Date: 2024-07-23
+
+Summary:
+This script demonstrates how to use embeddings for processing responses using the Ollama API without database features.
+It initializes a Qdrant client, checks for or creates a collection, generates embeddings for sample data,
+upserts them into the Qdrant database, and performs a search query to retrieve relevant data based on embeddings.
+Finally, it constructs a completion prompt using the retrieved data and fetches a formatted response from the Ollama API
+using LLM completions.
+
+Deployment Instructions:
+1. Ensure you have Python installed.
+2. Install the necessary packages using pip:
+    pip install numpy qdrant-client requests logging
+
+3. Ensure Qdrant is running on the specified host and port.
+4. Ensure Ollama API is running on the specified host and port.
+5. Update the configuration parameters as needed.
+6. Place the sample data in a file named 'exampledata.txt' in the same directory as this script.
+
+Run the script:
+    python start3.py
+"""
 import numpy as np
 from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance, PointStruct

@@ -1,3 +1,26 @@
+"""
+Author: Ryan Mangan
+Date: 2024-07-23
+
+Summary:
+This script demonstrates how to use embeddings for vector-based search with Qdrant and the Ollama API.
+It initialises a Qdrant client, checks for or creates a collection, generates embeddings for sample data,
+upserts them into the Qdrant database, and performs a search query to retrieve relevant data based on embeddings.
+
+Deployment Instructions:
+1. Ensure you have Python installed.
+2. Install the necessary packages using pip:
+    pip install numpy qdrant-client requests logging
+
+3. Ensure Qdrant is running on the specified host and port.
+4. Ensure Ollama API is running on the specified host and port.
+5. Update the configuration parameters as needed.
+6. Place the sample data in a file named 'exampledata.txt' in the same directory as this script.
+
+Run the script:
+    python start2.py
+"""
+
 ### Embeddings example which shows the output from the Vector DB after upsert. 
 import numpy as np
 from qdrant_client import QdrantClient
@@ -74,8 +97,8 @@ def get_embedding(text):
     
     return embedding
 
-# Function to get completion from Ollama API
-def get_completion(prompt):
+# Function to search embeddings from Ollama API
+def search_embeddings(prompt):
     url = f"{OLLAMA_API_URL}/generate"
     payload = {
         "model": EMBEDDING_MODEL,
@@ -93,7 +116,7 @@ def get_completion(prompt):
                 if part.get("done"):
                     break
     except requests.exceptions.RequestException as e:
-        logger.error(f"Failed to get completion: {e}")
+        logger.error(f"Failed to search embeddings: {e}")
         raise
     
     return full_response
@@ -164,14 +187,14 @@ logger.info(f"Number of relevant vectors found: {len(search_result)}")
 for result in search_result:
     logger.info(f"Search result - Score: {result.score}, Text: {result.payload['text']}")
 
-# Construct the system prompt and completion prompt
-system_prompt = "You want to use the MSIX packaging with a template. no small talk ."
+# Construct the system prompt and search results summary
+system_prompt = "You want to use the MSIX packaging with a template."
 context = " ".join(relevant_texts)
-completion_prompt = f"{system_prompt}\n\nBased on the context provided from the vector database, here is the relevant information:\n\n{context}\n\n"
+search_results_summary = f"{system_prompt}\n\nBased on the context provided from the vector database, here is the relevant information:\n\n{context}\n\n"
 
-logger.info(f"Completion prompt: {completion_prompt}")
+logger.info(f"Search results summary: {search_results_summary}")
 
 # Print the completion (formatting the response directly from the retrieved vectors)
 logger.info("Answer")
-logger.info(completion_prompt)
-print("Formatted Completion:", completion_prompt)
+logger.info(search_results_summary)
+print("Formatted Completion:", search_results_summary)
