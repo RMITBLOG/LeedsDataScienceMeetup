@@ -201,4 +201,4 @@ with log_section("GETTING COMPLETION FROM OLLAMA"):
 # Print the completion
 logger.info("Answer")
 logger.info(completion)
-print("Completion:", completion)
+#print("Completion:", completion)
